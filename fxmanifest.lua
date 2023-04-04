@@ -13,10 +13,12 @@ shared_scripts {
 }
 
 client_scripts {
+	'Locale.lua',
 	'Client/*.lua'
 }
 
 server_scripts {
+	'Locale.lua',
 	'Server/*.lua'
 }
 

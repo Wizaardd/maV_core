@@ -3,7 +3,7 @@ MVS.Callbacks = {}
 MVS.Framework = nil
 MVS.Game = {}
 MVS.Functions = MVS_Functions
-
+MVS.FrameworkName = Config.Framework
 MVS.TriggerServerCallback = function(name, payload, func) 
     if not func then 
         func = function() end
@@ -20,6 +20,10 @@ MVS.Game.GetVehicleProperties = function(vehicle)
     elseif Config.Framework == 'QB' then
         return MVS.Framework.Functions.GetVehicleProperties(vehicle)
     end
+end
+
+MVS.Debug = function(str) 
+    print("[\x1b[44maV_core\x1b[0m]: " .. str)
 end
 
 MVS.Game.SetVehicleProperties = function(vehicle, props) 

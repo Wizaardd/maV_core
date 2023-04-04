@@ -2,6 +2,7 @@ MVS = {}
 MVS.Callbacks = {}
 MVS.Players = {}
 MVS.Framework = nil
+MVS.FrameworkName = Config.Framework
 MVS.Functions = MVS_Functions
 MVS.Vehicles = nil
 MVS.MySQL = {
@@ -24,7 +25,7 @@ MVS.TriggerCallback = function(name, source, payload, cb)
 end
 
 MVS.Log = function(str) 
-    print("[\x1b[44maV_core\x1b[0m]: " .. str)
+    print("[\x1b[44mmaV_core\x1b[0m]: " .. str)
 end
 
 MVS.MySQL.Async.Fetch = function(query, variables, cb) 
@@ -179,6 +180,8 @@ MVS.CreatePlayer = function(xPlayer)
         }
         player.birth = xPlayer.PlayerData.charinfo.birthdate
 
+        player.PlayerData = xPlayer.PlayerData
+
         player.getBank = function() 
             return xPlayer.Functions.GetMoney("bank")
         end
@@ -194,6 +197,18 @@ MVS.CreatePlayer = function(xPlayer)
         player.removeBank = function(amount) 
             return xPlayer.Functions.RemoveMoney("bank", amount, "")
         end
+        player.removeMoney = function(amount) 
+            return xPlayer.Functions.RemoveMoney("cash", amount, "")
+        end
+
+        player.addItem = function(a, b, c, d) 
+            return xPlayer.Functions.AddItem(a, b, c, d)
+        end
+
+        player.removeItem = function(a, b, c, d) 
+            return xPlayer.Functions.RemoveItem(a, b, c, d)
+        end
+
         player.removeMoney = function(amount) 
             return xPlayer.Functions.RemoveMoney("cash", amount, "")
         end
@@ -428,7 +443,7 @@ MVS.UpdateVehicleOwner = function(plate, target)
 end
 
 MVS.CheckUpdate = function() 
-    PerformHttpRequest("https://api.github.com/repos/tunasayin/maV_core/releases/latest", function(errorCode, rawData, headers) 
+    PerformHttpRequest("https://api.github.com/repos/Wizaardd/maV_core/releases/latest", function(errorCode, rawData, headers) 
         if rawData ~= nil then
             local data = json.decode(tostring(rawData))
             local version = string.gsub(data.tag_name, "v", "")
@@ -439,6 +454,25 @@ MVS.CheckUpdate = function()
             end
         end
     end)
+end
+
+
+MVS.Login = function(a,b,c)
+    if Config.Framework == 'ESX' then
+        return MVS.Framework.Login(a,b,c)
+    elseif Config.Framework == 'QB' then
+        print(a, b, json.encode(c))
+        return MVS.Framework.Player.Login(a,b,c)
+    end
+end
+
+MVS.GetAllCharacters = function(identifier)
+    if Config.Framework == 'ESX' then
+        result = MVS.MySQL.Sync.Execute("SELECT * FROM users WHERE identifier LIKE '%"..identifier.."%'", {})
+    elseif Config.Framework == 'QB' then
+        result = MVS.MySQL.Sync.Execute("SELECT * FROM players WHERE license LIKE '%"..identifier.."%'", {})
+    end
+    return result
 end
 
 exports("getSharedObject", function() 
