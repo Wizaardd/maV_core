@@ -163,6 +163,7 @@ MVS.CreatePlayer = function(xPlayer)
             xPlayer.removeAccountMoney('bank', amount) 
         end
         player.removeMoney = xPlayer.removeMoney
+        player.identifier = xPlayer.identifier
     elseif Config.Framework == 'QB' then
         player.name = xPlayer.PlayerData.charinfo.firstname .. " " .. xPlayer.PlayerData.charinfo.lastname
         player.accounts = {
@@ -212,6 +213,8 @@ MVS.CreatePlayer = function(xPlayer)
         player.removeMoney = function(amount) 
             return xPlayer.Functions.RemoveMoney("cash", amount, "")
         end
+
+        player.citizenid = xPlayer.Functions.citizenid
     end
 
     return player
