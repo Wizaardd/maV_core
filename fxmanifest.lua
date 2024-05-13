@@ -5,7 +5,7 @@ game 'gta5'
 author 'Wizard#2889'
 description 'Core script needed for almost all MVS scripts.'
 
-version '0.0.3'
+version '0.0.5'
 
 shared_scripts {
 	'Config.lua',

@@ -158,6 +158,8 @@ MVS.CreatePlayer = function(xPlayer)
         player.addBank = function(amount) 
             xPlayer.addAccountMoney('bank', amount) 
         end
+        player.inventory = xPlayer.inventory
+
         player.addMoney = xPlayer.addMoney
         player.removeBank = function(amount) 
             xPlayer.removeAccountMoney('bank', amount) 
@@ -180,7 +182,7 @@ MVS.CreatePlayer = function(xPlayer)
             label = xPlayer.PlayerData.job.label
         }
         player.birth = xPlayer.PlayerData.charinfo.birthdate
-
+        player.inventory = xPlayer.PlayerData.items
         player.PlayerData = xPlayer.PlayerData
 
         player.getBank = function() 
@@ -214,7 +216,8 @@ MVS.CreatePlayer = function(xPlayer)
             return xPlayer.Functions.RemoveMoney("cash", amount, "")
         end
 
-        player.citizenid = xPlayer.Functions.citizenid
+        player.citizenid = xPlayer.PlayerData.citizenid
+        player.identifier = xPlayer.PlayerData.citizenid
     end
 
     return player

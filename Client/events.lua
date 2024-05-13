@@ -12,3 +12,15 @@ AddEventHandler("maV_core:getSharedObject", function(cb)
         cb(MVS)
     end 
 end)
+
+
+
+
+RegisterNetEvent('esx:playerLoaded', function(a)
+    TriggerEvent('maV-core:playerLoaded', a)
+end)
+
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function(a)
+    TriggerEvent('maV-core:playerLoaded', a)
+end)
+
