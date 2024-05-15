@@ -94,13 +94,13 @@ MVS.IsPlayerAvailable = function(source)
     local available = false
 
     if type(source) == 'number' then 
-        if Config.Framework == 'ESX' then
+        if Config.Framework == 'ESX'  or Config.Framework == 'OLD-ESX' or Config.Framework == 'OLD-ESX' then
             available = MVS.Framework.GetPlayerFromId(source) ~= nil
         elseif Config.Framework == 'QB' then
             available = MVS.Framework.Functions.GetPlayer(source) ~= nil
         end
     elseif type(source) == 'string' then
-        if Config.Framework == 'ESX' then
+        if Config.Framework == 'ESX'  or Config.Framework == 'OLD-ESX' or Config.Framework == 'OLD-ESX' then
             available = MVS.Framework.GetPlayerFromIdentifier(identifier) ~= nil
         elseif Config.Framework == 'QB' then
             available = MVS.Framework.Functions.GetSource(identifier) ~= nil
@@ -112,7 +112,7 @@ end
 
 MVS.GetPlayerIdentifier = function(source)
     if MVS.IsPlayerAvailable(source) then
-        if Config.Framework == 'ESX' then
+        if Config.Framework == 'ESX'  or Config.Framework == 'OLD-ESX' then
             local xPlayer = MVS.Framework.GetPlayerFromId(source)
             return xPlayer.getIdentifier()
         elseif Config.Framework == 'QB' then
@@ -130,7 +130,7 @@ MVS.CreatePlayer = function(xPlayer)
         return nil
     end
 
-    if Config.Framework == 'ESX' then 
+    if Config.Framework == 'ESX'  or Config.Framework == 'OLD-ESX' then 
         player.name = xPlayer.getName()
         player.accounts = {}
         for _,v in ipairs(xPlayer.getAccounts()) do 
@@ -227,7 +227,7 @@ MVS.GetPlayer = function(source)
     if MVS.IsPlayerAvailable(source) then 
         local xPlayer = nil
 
-        if Config.Framework == 'ESX' then
+        if Config.Framework == 'ESX'  or Config.Framework == 'OLD-ESX' then
             xPlayer = MVS.Framework.GetPlayerFromId(source)
         elseif Config.Framework == 'QB' then
             xPlayer = MVS.Framework.Functions.GetPlayer(source)
@@ -243,7 +243,7 @@ MVS.GetPlayerFromIdentifier = function(identifier)
     if MVS.IsPlayerAvailable(identifier) then 
         local xPlayer = nil
 
-        if Config.Framework == 'ESX' then
+        if Config.Framework == 'ESX'  or Config.Framework == 'OLD-ESX' then
             xPlayer = MVS.Framework.GetPlayerFromIdentifier(identifier)
         elseif Config.Framework == 'QB' then
             xPlayer = MVS.Framework.Functions.GetPlayer(MVS.Framework.Functions.GetSource(identifier))
@@ -262,7 +262,7 @@ MVS.GetAllVehicles = function(force)
 
     local vehicles = {}
 
-    if Config.Framework == 'ESX' then
+    if Config.Framework == 'ESX'  or Config.Framework == 'OLD-ESX' then
         local data = MVS.MySQL.Sync.Fetch("SELECT * FROM vehicles", {})
 
         for k, v in ipairs(data) do 
@@ -325,7 +325,7 @@ MVS.GetPlayerVehicles = function(source)
         local vehicles = MVS.GetAllVehicles(false)
         local playerVehicles = {}
 
-        if Config.Framework == 'ESX' then
+        if Config.Framework == 'ESX'  or Config.Framework == 'OLD-ESX' then
             local data = MVS.MySQL.Sync.Fetch("SELECT * FROM owned_vehicles WHERE owner = @identifier", { ["@identifier"] = identifier })
 
             for k,v in ipairs(data) do
@@ -400,7 +400,7 @@ MVS.UpdatePlayerVehicle = function(source, plate, vehicleData)
         end
 
         local query = nil
-        if Config.Framework == 'ESX' then
+        if Config.Framework == 'ESX'  or Config.Framework == 'OLD-ESX' then
             query = "UPDATE owned_vehicles SET vehicle = @props, stored = @stored, garage = @garage WHERE owner = @identifier AND plate = @plate"
         elseif Config.Framework == 'QB' then
             query = "UPDATE player_vehicles SET mods = @props, stored = @stored, garage = @garage WHERE license = @identifier AND plate = @plate"
@@ -433,7 +433,7 @@ MVS.UpdateVehicleOwner = function(plate, target)
     end
 
     local query = nil
-    if Config.Framework == 'ESX' then
+    if Config.Framework == 'ESX'  or Config.Framework == 'OLD-ESX' then
         query = "UPDATE owned_vehicles SET owner = @newOwner WHERE plate = @plate" 
     elseif Config.Framework == 'QB' then
         query = "UPDATE player_vehicles SET license = @newOwner WHERE plate = @plate"
@@ -464,7 +464,7 @@ end
 
 
 MVS.Login = function(a,b,c)
-    if Config.Framework == 'ESX' then
+    if Config.Framework == 'ESX'  or Config.Framework == 'OLD-ESX' then
         return MVS.Framework.Login(a,b,c)
     elseif Config.Framework == 'QB' then
         print(a, b, json.encode(c))
@@ -473,7 +473,7 @@ MVS.Login = function(a,b,c)
 end
 
 MVS.GetAllCharacters = function(identifier)
-    if Config.Framework == 'ESX' then
+    if Config.Framework == 'ESX'  or Config.Framework == 'OLD-ESX' then
         result = MVS.MySQL.Sync.Execute("SELECT * FROM users WHERE identifier LIKE '%"..identifier.."%'", {})
     elseif Config.Framework == 'QB' then
         result = MVS.MySQL.Sync.Execute("SELECT * FROM players WHERE license LIKE '%"..identifier.."%'", {})

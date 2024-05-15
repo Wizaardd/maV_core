@@ -15,7 +15,7 @@ MVS.TriggerServerCallback = function(name, payload, func)
 end
 
 MVS.Game.GetVehicleProperties = function(vehicle) 
-    if Config.Framework == 'ESX' then
+    if Config.Framework == 'ESX' or Config.Framework == 'OLD-ESX' then
         return MVS.Framework.Game.GetVehicleProperties(vehicle)
     elseif Config.Framework == 'QB' then
         return MVS.Framework.Functions.GetVehicleProperties(vehicle)
@@ -27,7 +27,7 @@ MVS.Debug = function(str)
 end
 
 MVS.Game.SetVehicleProperties = function(vehicle, props) 
-    if Config.Framework == 'ESX' then
+    if Config.Framework == 'ESX' or Config.Framework == 'OLD-ESX' then
         return MVS.Framework.Game.SetVehicleProperties(vehicle, props)
     elseif Config.Framework == 'QB' then
         return MVS.Framework.Functions.SetVehicleProperties(vehicle, props)
