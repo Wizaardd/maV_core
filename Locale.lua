@@ -2,18 +2,18 @@ Locales = {}
 
 function Translate(str, ...) 
 
-	if Locales[Config.Locale] then
-		if Locales[Config.Locale][str] then
-			return string.format(Locales[Config.Locale][str], ...)
-		elseif Config.Locale ~= 'en' and Locales['en'][str] then
+	if Locales[MVS.Settings.Locale] then
+		if Locales[MVS.Settings.Locale][str] then
+			return string.format(Locales[MVS.Settings.Locale][str], ...)
+		elseif MVS.Settings.Locale ~= 'en' and Locales['en'][str] then
 			return string.format(Locales['en'][str], ...)
 		else
-			return 'Translation [' .. Config.Locale .. '][' .. str .. '] does not exist'
+			return 'Translation [' .. MVS.Settings.Locale .. '][' .. str .. '] does not exist'
 		end
-	elseif Config.Locale ~= 'en' and Locales['en'] and Locales['en'][str] then
+	elseif MVS.Settings.Locale ~= 'en' and Locales['en'] and Locales['en'][str] then
 			return string.format(Locales['en'][str], ...)
 	else
-		return 'Locale [' .. Config.Locale .. '] does not exist'
+		return 'Locale [' .. MVS.Settings.Locale .. '] does not exist'
 	end
 end
 
